@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Editors</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/94bb7f4ed1.js" crossorigin="anonymous"></script>
+</head>
+<body onload="get()">
+    <p id="savedText"></p>
+    <p id="openedText"></p>
+    <input type="text" id="input" name="txt" class="txt">
+    <input type="button" value="copy" class="btn">
+    <button onclick="save()">Save</button>
+    <button onclick="alert('Hello!')" id="btn1">Main Button</button>
+    <button onclick="enable()" id="btn1">Enable</button>
+    <button onclick="disable()" id="btn1">Disable</button>
+  <div class="container">
+    <div class="left">
+        <label><i class="fa-brands fa-html5"></i>HTML</label>
+        <textarea id="html-code" onkeyup="run()"></textarea>
+        <label><i class="fa-brands fa-css3-alt"></i>CSS</label>
+        <textarea id="css-code" onkeyup="run()"></textarea>
+        <label><i class="fa-brands fa-js"></i>JavaScript</label>
+        <textarea id="js-code" onkeyup="run()"></textarea>
+    </div>
+    <div class="right">
+        <label><i class="fa-solid fa-play"></i>Output</label>
+        <iframe id="output"></iframe>
+    </div>
+  </div>
+  <script>
+    //lock/unlock logic
+    function enable()
+    {
+        document.getElementById("btn1").disabled=true;
+    }
+    function disable()
+    {
+        document.getElementById("btn1").disabled=false;
+    }
+    //copy logic
+   let btn=document.querySelector('.btn');
+   btn.addEventListener("click",function(){
+let txt=document.querySelector('.txt');
+txt.select();
+document.execCommand('copy');
+   });
+   var storedItem=localStorage.getItem("storedItem");
+   function save()
+   {
+    var Item=document.getElementById("input").value;
+    localStorage.setItem("storedItem",Item);
+    document.getElementById("savedText").innerHTML=Item + "SAVED";
+   }
+   function get()
+   {
+    localStorage.getItem("storedItem");
+    document.getElementById("openedText").innerHTML=storedItem + "OPENED";
+   }
+    function run()
+    {
+        let htmlcode=document.getElementById("html-code").value;
+        let csscode=document.getElementById("css-code").value;
+        let jscode=document.getElementById("js-code").value;
+        let output=document.getElementById("output");
+
+        output.contentDocument.body.innerHTML=htmlcode+"<style>"+csscode+"</style>";
+        output.contentWindow.eval(jscode);
+    }
+  </script>
+</body>
+</html>
